@@ -1,3 +1,14 @@
 <p>
   status works!
 </p>
+<pre>{{ status$ | async | json }}
+</pre>
+
+<div>
+<strong>State:</strong> {{ (status$ | async).state }}<br />
+<strong>Last Ping:</strong> {{ (status$ | async).lastPing}}
+</div>
+
+<button (click)="setState('online')">Online</button>
+<button (click)="setState('offline')">Offline</button>
+<button (click)="sendPing()">Ping</button>
