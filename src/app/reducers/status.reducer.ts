@@ -1,26 +1,43 @@
 import { Action } from '@ngrx/store';
 
-export const CHANGE_STATE = 'CHANGE_STATE';
-export const PING = 'PING';
+const CHANGE_STATE = 'CHANGE_STATE';
+const PING = 'PING';
 
-export interface ActionWithPayload<T> extends Action {
-  payload: T;
+abstract class TypedAction implements Action {
+  readonly type: string;
+
+  constructor(type: string) {
+    this.type = type;
+  }
 }
 
-export interface StatusPayload {
-  state: string;
+export class ChangeStatusAction extends TypedAction {
+  constructor()  {
+    super(CHANGE_STATE);
+  }
+
+  newState: string;
+}
+
+export class PingAction extends TypedAction {
+  constructor() {
+    super(PING);
+  }
+
   timestamp: Date;
 }
 
-export function statusReducer(state = [], action: ActionWithPayload<StatusPayload>) {
+export function statusReducer(state = [], action: Action) {
 
   switch (action.type) {
 
     case CHANGE_STATE:
-      return {...state, state:action.payload.state };
+      const statusChangeAction = <ChangeStatusAction> action;
+      return {...state, state: statusChangeAction.newState };
 
     case PING:
-      return {...state, lastPing:action.payload.timestamp};
+      const pingAction = <PingAction>action;
+      return {...state, lastPing: pingAction.timestamp};
 
     default:
       return state;
