@@ -27,13 +27,13 @@ export class PingAction extends TypedAction {
   timestamp: Date;
 }
 
-export function statusReducer(state = [], action: Action) {
+export function statusReducer(state = [], action: Actions) {
 
   switch (action.type) {
 
     case CHANGE_STATE:
-      const statusChangeAction = <ChangeStatusAction> action;
-      return {...state, state: statusChangeAction.newState };
+      const changeStatusAction = <ChangeStatusAction> action;
+      return {...state, state: changeStatusAction.newState };
 
     case PING:
       const pingAction = <PingAction>action;
@@ -44,3 +44,5 @@ export function statusReducer(state = [], action: Action) {
   }
 
 }
+
+export type Actions = ChangeStatusAction | PingAction;
